@@ -1,0 +1,34 @@
+@startuml
+actor User
+boundary Jenkins
+control Maven
+database GitHub
+database Nexus
+boundary Ansible
+participant Server
+
+User -> Jenkins: Start job
+Jenkins -> GitHub: Check out branch
+Jenkins <- GitHub: Source code
+Jenkins -> Maven: clean install
+... Artifacts built ...
+Maven -> Jenkins: Job complete
+Jenkins -> Maven: deploy
+Maven -> Nexus: Copy artifacts
+...
+Nexus -> Nexus: Create apt metadata
+Nexus -> Maven: Job complete
+Jenkins <-- Maven: Job complete
+User <-- Jenkins: Job complete
+User -> Ansible: Start software deployment
+Ansible -> Server: apt-get update|install package
+Server -> Nexus: Retrieve package
+Server <- Nexus: Debian package
+Server -> Server: Install package
+Ansible <-- Server: Job complete
+Ansible -> Server: Configure application
+Ansible <-- Server: Job complete
+Ansible -> Server: Restart services
+Ansible <-- Server: Job complete
+User <-- Ansible: Job complete
+@enduml

@@ -1,0 +1,13 @@
+@startuml
+(*) --> "Commit code"
+"Commit code" --> "Test code"
+"Test code" --> "Build artifacts"
+"Build artifacts" --> "Deploy artifacts to repository"
+"Deploy artifacts to repository" --> ===A1===
+===A1=== --> "Install native packages"
+===A1=== --> "Reuse libraries"
+"Reuse libraries" --> (*)
+"Install native packages" --> "Configure software"
+"Configure software" --> "Run service"
+"Run service" --> (*)
+@enduml
