@@ -3,13 +3,21 @@
 
 This repository contains documentation for the release management system and operational documentation.
 
-## Overview
+## Services quick links
 
+* [Jenkins](http://build.ihtsdotools.org) ([Config docs](Jenkins.md))
+* [Sonatype Nexus](https://maven.ihtsdotools.org) ([Config docs](Nexus.md))
+* [SonarQube](https://sonar.ihtsdotools.org) ([Config docs](SonarQube.md))
+* [JIRA](https://jira.ihtsdotools.org)
+
+## Application build requirements
+
+## Overview
 
 The build and release process is broken into a number of distinct stages.
 ![Release stages](release_stages.png)
 
-## Building
+### Building
 
 The build process is run by [Jenkins](http://build.ihtsdotools.org) and Maven, with Jenkins triggering the build and controlling progress through the stages, and Maven doing the actual build.
 
