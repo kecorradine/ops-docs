@@ -6,20 +6,64 @@ The build environment consists of the following services:
 
 All are provisioned using Ansible in a hands off manner.
 
-## Provisioning
+# Provisioning
 
 Broad configuration is given in the inventory/ folder of the [ihtsdo-ansible](https://github.com/IHTSDO/ihtsdo-ansible)
-repository. To provision a new server, edit the inventory accordingly and run:
+repository. See the [README](https://github.com/IHTSDO/ihtsdo-ansible/README.md) for information on the set up on inventory files.
 
-ansible-playbook -i inventory/live.ini build_environment.yml -u <username> 
+To provision a new build environment, edit the inventory accordingly and run:
 
-On a new build, username will be root, otherwise your normal username.
+```sh
+$ ansible-playbook -i inventory/live.ini build_environment.yml -u root
+```
+
+On subsquent runs, omit the `-u root` or change `root` to your username.
 
 ## SonarQube set up
 
 Login to the new SonarQube install, username admin, password admin. Change the password!
 
 Create a jenkins user, with a suitable password
+
+Under General settings, configure [Email](email.md).
+
+## Sonatype Nexus
+
+### Install Nexus on a server
+
+Assuming a new server on Digital Ocean.
+
+1. Update inventory/live_inventory.ini, adding the servers FQDN in [nexus]
+2. Run:
+```sh
+$ ansible-playbook build-environment.yml -i inventory/live_inventory.ini --limit nexus -u root
+``
+3. Wait a few minutes for Nexus to start. Your new site is accessable at http://<server_fqdn>
+
+### Install Nexus in a VM:
+
+```sh
+$ vagrant up
+$ vagrant provision
+$ ansible-playbook build-environment.yml -i inventory/vagrant.ini -u username
+```
+
+Where `username` is a valid user with root via sudo.
+
+Once finished, wait a few minutes from Nexus to spin up then login in at http://192.168.33.10 as admin/admin123
+
+### Configuring the APT plugin
+
+To configure the apt plugin, go to the admin interface, under Administration, Capabilities. Select New and fill
+in the fields as follows:
+
+* Secure keyring location: /var/lib/sonatype-nexus/pkg_signing_gpg.keyring
+* Key ID: AA5872B8
+* Passphrase for the key: <passphrase>
+
+### Configuring SMTP
+
+On the server configuration page under SMTP Settings. See the [email document](email.md) for specific settings.
 
 ## Jenkins server set up
 
@@ -71,7 +115,7 @@ Database password: from the Ansible inventory
 Database driver: com.mysql.jdbc.Driver
 
 * E-mail notification
-Set to a suitable email provider.
+Set to a suitable [email provider](email.md).
 Set Jenkins Location, System Admin to a suitable email address
 
 * Git
@@ -84,8 +128,8 @@ Path to Git executable: /usr/bin/git
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <mirrors>
     <mirror>
@@ -102,8 +146,8 @@ Add credentials for the Nexus Sonatype Repository via the usual Jenkins Credenti
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <servers>
     <id>deployment</id>
