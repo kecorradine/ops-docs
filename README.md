@@ -1,7 +1,6 @@
-
 # Operational Documentation
 
-This repository contains documentation for the release management system and operational documentation.
+This repository contains documentation for deploying the release management system and operational documentation.
 
 ## Services quick links
 
