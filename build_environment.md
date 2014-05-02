@@ -69,12 +69,16 @@ On the server configuration page under SMTP Settings. See the [email document](e
 
 1. Update plugins
 2. Install the following plugins
-* Gravatar plugin
-* GitHub OAuth plugin
-* Jenkins Sonar plugin
-* Config File Provider plugin
+* Gravatar
+* GitHub OAuth
+* Jenkins Sonar
+* Config File Provider
 * Git plugin
 * GitHub plugin
+* Log Command
+* IRC
+* SSH Agent
+
 
 ### Configure GitHub authentication
 
@@ -108,6 +112,7 @@ MAVEN_HOME: /usr/share/maven
 
 * Sonar
 Name: Local SonarQube install
+Server URL: is whatever the sonarqube_nginx_fqdn is set to. For IHTSDO core it's https://sonarqube.ihtsdotools.org
 Sonar Account Login/Password: Whatever is set in Sonar
 Database URL: jdbc:mysql://localhost:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
 Database username: sonar unless changed in inventory
@@ -164,3 +169,7 @@ These values can be set as defaults in the main Jenkins configuration page
 * Credentials
 
 Add SSH key, username jenkins. If using the official IHTSDO ansible inventory, the ssh key is in ~/.ssh
+
+* GitHub Web Hook
+
+Configure to use automatic hook updates. See password doc for user information. OAuth is prefered to password auth.
