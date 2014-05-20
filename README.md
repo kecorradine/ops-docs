@@ -13,10 +13,15 @@ This repository contains documentation for deploying the release management syst
 ## Third party software documentation
 
 * [Ansible](http://docs.ansible.com)
+* [SonarQube](http://www.sonarqube.org/documentation)
+* [Sonatype Nexus](http://books.sonatype.com/nexus-book/reference/index.html)
+* [Jenkins](https://wiki.jenkins-ci.org/display/JENKINS/Use+Jenkins)
 
 ## Overview
 
 The build and release process is broken into a number of distinct stages.
+
+
 ![Release stages](release_stages.png)
 
 ### Building
@@ -33,9 +38,9 @@ The resulting artifacts are deployed to [Sonatype Nexus](https://maven.ihtsdo.or
 
 ![Build sequence](build_sequence.png)
 
-Content
--------
+# Lifecycle
 
-* The [build process](build.md)
-* The [release process](release.md)
+The broad life cycle runs as follows:
+
+* Configure maven to produce .deb files via the jdeb plugin
 
