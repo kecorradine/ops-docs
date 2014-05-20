@@ -51,8 +51,11 @@ The broad life cycle runs as follows:
 * Set up SNAPSHOT and RELEASE jobs in Jenkins by cloning existing jobs and editing. Be sure to check advanced configuration options as they be hidden in the default view. GitHub hooks will be automatically configured.
 * Upon running the jobs, the deb packages should be produced and all artifacts uploaded to the [Nexus Repository](https://nexus.ihtsdotools.org).
 
-#Deploy life cycle
+# Deploy life cycle
 
-* On the [Ansible Jenkins server][https://ansible.ihtsdotools.org] clone
+* In the IHTSDO ansible repository and associated inventory, copy an existing role to a new folder and edit for the new application (in particular, check default and naming).
+* Add new groups the the inventory files with appropriate configuration.
+* On the [Ansible Jenkins server][https://ansible.ihtsdotools.org] clone an existing job and edit as required.
+
 
 
