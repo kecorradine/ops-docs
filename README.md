@@ -57,5 +57,10 @@ The broad life cycle runs as follows:
 * Add new groups the the inventory files with appropriate configuration.
 * On the [Ansible Jenkins server](https://ansible.ihtsdotools.org) clone an existing job and edit as required.
 
+# Adding a new server
 
+* Create the server in Digital Ocean's control panel, adding your SSH key to the server.
+* Edit the appropriate ansible inventory files to add the new server
+* Run: `ansible-playbook -i inventory/INVENTORY_FILE user_management.yaml -u root`
+* Run the appropriate playbook, e.g. `ansible-playbook -i inventory/INVENTORY_FILE snomed_release_service.yml`
 
