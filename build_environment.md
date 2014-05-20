@@ -155,14 +155,14 @@ Add credentials for the Nexus Sonatype Repository via the usual Jenkins Credenti
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <servers>
-    <id>deployment</id>
+    <id>ihtsdo-nexus-public</id>
     <username>jenkins</username>
     <password>password</password>
   </servers>
 </settings>
 ```
 
-Add Credentials with a a ServerId of deployment.
+Add Credentials with a a ServerId of ihtsdo-nexus-public.
 
 These values can be set as defaults in the main Jenkins configuration page
 
@@ -173,3 +173,13 @@ Add SSH key, username jenkins. If using the official IHTSDO ansible inventory, t
 * GitHub Web Hook
 
 Configure to use automatic hook updates. See password doc for user information. OAuth is prefered to password auth.
+
+# Upgrading Jenkins
+
+Every 12 weeks a new stable version of Jenkins is releaseed. To upgrade:
+
+1. Log in to the build server
+2. Run apt-get update
+3. Run apt-get upgrade. When asked about overriding /etc/default/jenkins, answer N.
+
+
