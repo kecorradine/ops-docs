@@ -4,12 +4,15 @@ This repository contains documentation for deploying the release management syst
 
 ## Services quick links
 
-* [Jenkins](http://build.ihtsdotools.org) ([Config docs](Jenkins.md))
-* [Sonatype Nexus](https://maven.ihtsdotools.org) ([Config docs](Nexus.md))
-* [SonarQube](https://sonar.ihtsdotools.org) ([Config docs](SonarQube.md))
+* [Jenkins Software builder](http://jenkins.ihtsdotools.org)
+* [Jenkins Deployer](http://ansible.ihtsdotools.org)
+* [Sonatype Nexus](https://maven.ihtsdotools.org)
+* [SonarQube](https://sonarqube.ihtsdotools.org)
 * [JIRA](https://jira.ihtsdotools.org)
 
-## Application build requirements
+## Third party software documentation
+
+* [Ansible](http://docs.ansible.com)
 
 ## Overview
 
