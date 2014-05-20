@@ -16,6 +16,7 @@ This repository contains documentation for deploying the release management syst
 * [SonarQube](http://www.sonarqube.org/documentation)
 * [Sonatype Nexus](http://books.sonatype.com/nexus-book/reference/index.html)
 * [Jenkins](https://wiki.jenkins-ci.org/display/JENKINS/Use+Jenkins)
+* [Jgitflow](https://bitbucket.org/atlassian/jgit-flow/wiki/Home)
 
 ## Overview
 
