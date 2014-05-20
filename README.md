@@ -55,7 +55,7 @@ The broad life cycle runs as follows:
 
 * In the IHTSDO ansible repository and associated inventory, copy an existing role to a new folder and edit for the new application (in particular, check default and naming).
 * Add new groups the the inventory files with appropriate configuration.
-* On the [Ansible Jenkins server][https://ansible.ihtsdotools.org] clone an existing job and edit as required.
+* On the [Ansible Jenkins server](https://ansible.ihtsdotools.org) clone an existing job and edit as required.
 
 
 
