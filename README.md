@@ -37,7 +37,7 @@ During the build phase, the code is analysed by [SonarQube](https://sonar.ihtsdo
 
 The resulting artifacts are deployed to [Sonatype Nexus](https://maven.ihtsdo.org). Nexus has an [apt plugin](https://github.com/inventage/nexus-apt-plugin), which generated apt metadata from deb packages uploaded to repositories.
 
-![Build sequence](build_sequence.png)
+![Packaging sequence](packaging_sequence.png)
 
 # Build Lifecycle
 
