@@ -32,7 +32,9 @@ The follow installations must be followed to avoid confusion. This follows the [
 * /opt/<app_name> - the application itself, typically with a jar in /opt/<app_name>/lib and any control tools in /opt/<app_name>/bin or /opt/<app_name>/sbin, depending on purpose. This tree must be root:root owner with no other write bits set.
 * /etc/opt/<app_name> - configuration files. The location of these files is to be specified on the command line. Typically this will contain authentication information for 3rd party services perhaps via a properties file and logging configuration (e.g. a log4j.xml file, configure for production use). Configuration files containing sensitive information should be root:<app_user> owned with a file mode of 0640.
 * /var/opt/<app_name> - logs, temporary files etc. This is the only location to which the application can write.
-* /var/log/<app_name> - a symlink pointing to /var/opt/<app_name/logs
+* /var/log/<app_name> - a symlink pointing to /var/opt/<app_name/logs, optional
+
+Note that supervisor by default will log stdout and stderr to /var/log/supervisor and can be configured to rotate logs.
 
 ## Producing the jar file
 
