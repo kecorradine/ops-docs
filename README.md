@@ -33,11 +33,14 @@ Source is stored at [GitHub](http://github.com/IHTSDO). Most repositories are pu
 
 As was as the usual collection of jars, Debian native packages are produced using the [jdeb Maven plugin](https://github.com/tcurdt/jdeb).
 
-During the build phase, the code is analysed by [SonarQube](https://sonar.ihtsdotools.org) producing a code quality report.
 
 The resulting artifacts are deployed to [Sonatype Nexus](https://maven.ihtsdo.org). Nexus has an [apt plugin](https://github.com/inventage/nexus-apt-plugin), which generated apt metadata from deb packages uploaded to repositories.
 
 ![Packaging sequence](packaging_sequence.png)
+
+# Code analysis
+
+A job should exist that, each night, runs [SonarQube](https://sonar.ihtsdotools.org) against a code base, producing a code quality report.
 
 # Build Lifecycle
 
