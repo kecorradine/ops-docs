@@ -15,6 +15,8 @@ further, configuration. To that end, a typical package will contain:
 
 Generally speaking, where an application is exposed to end users via a web browser Nginx should be used as a proxy for the application. A package containing required assets can be produced and deployed. This package can contain a default nginx configuration to be placed in /etc/nginx/conf.d/<pkg_name>.conf. The package control should _not_ restart Nginx or manage any other Nginx configuration. That should be done via Ansible.
 
+Context should be served from /srv/http/<pkg_name>.
+
 The [SNOMED Release Service web component](https://github.com/IHTSDO/snomed-release-service/tree/master/web) can serve as an example.
 
 ## The application user
