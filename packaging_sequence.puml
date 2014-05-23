@@ -4,7 +4,8 @@ boundary Jenkins
 control Maven
 database GitHub
 database Nexus
-boundary Ansible
+boundary Ansible_Jenkins
+control Ansible
 participant Server
 
 User -> Jenkins: Start job
@@ -15,12 +16,13 @@ Jenkins -> Maven: clean install
 Maven -> Jenkins: Job complete
 Jenkins -> Maven: deploy
 Maven -> Nexus: Copy artifacts
-...
+... Artifacts copied ...
 Nexus -> Nexus: Create apt metadata
 Nexus -> Maven: Job complete
 Jenkins <-- Maven: Job complete
+Jenkins -> Ansible_Jenkins: Start deployment job
 User <-- Jenkins: Job complete
-User -> Ansible: Start software deployment
+Ansible_Jenkins -> Ansible: Start software deployment
 Ansible -> Server: apt-get update|install package
 Server -> Nexus: Retrieve package
 Server <- Nexus: Debian package
@@ -30,5 +32,5 @@ Ansible -> Server: Configure application
 Ansible <-- Server: Job complete
 Ansible -> Server: Restart services
 Ansible <-- Server: Job complete
-User <-- Ansible: Job complete
+Ansible_Jenkins <-- Ansible: Job complete
 @enduml
