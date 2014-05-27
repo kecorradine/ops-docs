@@ -38,15 +38,71 @@ Note that supervisor by default will log stdout and stderr to /var/log/superviso
 
 ## Producing the jar file
 
-The jar file should be able to be run as a free-standing daemon. Tomcat and Jetty are both able to
-do this and either is a fine choice. The configuration of maven to produce this file is beyond
-the scope of this document, but examples can be see in the [snomed-release-service](https://github.com/IHTSDO/snomed-release-service) api, web and builder POM files.
+The jar file should be able to be run as a free-standing daemon. Tomcat and Jetty are both able to do this and either is a fine choice. The configuration of maven to produce this file is beyond the scope of this document, but examples can be see in the [snomed-release-service](https://github.com/IHTSDO/snomed-release-service) api, web and builder POM files.
 
-In general, the jdeb section of the pom.xml will contain sections for each file or directory to be included in the package. Emptry directories can either be created in the pom.xml or via the postinst control file.
+The naming using through out the pom hierarchy should be consistent and terse. Do not postfix the root pom artifactId with -parent as it limits its reuse.
+
+```xml
+  <parent>
+    <groupId>org.ihtsdo.otf.mapping</groupId>
+    <artifactId>oft-mapping-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+```
+
+In module pom.xml files, define the parent in the same form.
+
+```
+  <groupId>org.ihtsdo.otf.mapping</groupId>
+  <artifactId>oft-mapping-service</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+```
+
+Set properties for `execFinalName` (the name of the resulting self container jar) and `packageName` (the resulting name for the package). The following can pasted into your modules pom.xml directly.
+
+```
+  <properties>
+    <execFinalName>exec-${project.build.finalName}.jar</execFinalName>
+    <packageName>${project.parent.artifactId}-${project.artifactId}</packageName>
+  </properties>
+```
+
+Be sure to set the modules build `finalName` to a static value, to ensure the same name is used for the resulting war. Again, this can be pasted directly.
+
+```xml
+  <build>
+    <finalName>${project.artifactId}</finalName>
+  ...
+```
+
+The creation of the tomcat jar. You may wish to edit the `path` that your app is exposed via.
+
+```xml
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.1</version>
+        <executions>
+          <execution>
+            <id>tomcat-run</id>
+            <goals>
+              <goal>exec-war-only</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <path>/api</path>
+              <finalName>${execFinalName}.jar</finalName>
+              <enableNaming>true</enableNaming>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+```
+
 
 ## Producing the package
 
-# Tree layout
+### Tree layout
 
 Within the projects tree, the follow structure should exist
 
@@ -64,6 +120,8 @@ src/
     log4j.xml
     defaults
 ```
+
+This can be copied from an existing module and editted accordingly. In particular, the files directly under deb/ are not templated and so will need to be manually altered. Note the naming convention of using the `${parent.artifactId}-${artifactId}` for naming of items related to the build. This is sometime automatically derived so case should be take to use the same form everywhere it is needed.
 
 ### Application configuration
 
@@ -85,9 +143,81 @@ Note that jdeb supports a limited template format for the control files and Mave
 
 See the [SNOMED Release Service API control sub tree](https://github.com/IHTSDO/snomed-release-service/tree/feature/config_logs/api/src/deb/control) for examples.
 
+In general, the jdeb section of the pom.xml will contain sections for each file or directory to be included in the package. Empty directories can either be created in the pom.xml or via the postinst control file.
+
 ### Start script
 
 [Supervisord](http://supervisord.org/) is used to managed the starting and stopping of the application. See the [release service supervisor.conf](https://github.com/IHTSDO/snomed-release-service/blob/master/api/src/deb/supervisor.conf) for an example.
+
+### jdeb configuration
+
+Typical jdeb configuration will look like the following. This example is using log4j rather that
+simply taking stdout and stderr via supervisord and letting it managed the log files.
+
+```xml
+
+      <plugin>
+        <groupId>org.vafer</groupId>
+        <artifactId>jdeb</artifactId>
+        <version>1.1.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jdeb</goal>
+            </goals>
+            <configuration>
+              <deb>${project.build.directory}/${packageName}-${project.version}-all.deb</deb>
+              <controlDir>${basedir}/src/deb/control</controlDir>
+              <snapshotExpand>true</snapshotExpand>
+              <snapshotEnv>BUILD_NUMBER</snapshotEnv>
+              <verbose>true</verbose>
+              <classifier>all</classifier>
+              <signPackage>false</signPackage>
+              <dataSet>
+                <data>
+                  <src>${project.build.directory}/${execFinalName}</src>
+                  <dst>app.jar</dst>
+                  <type>file</type>
+                  <mapper>
+                    <type>perm</type>
+                    <prefix>/opt/${packageName}/lib/</prefix>
+                  </mapper>
+                </data>
+                <data>
+                  <src>${basedir}/src/deb/supervisor.conf</src>
+                  <dst>/etc/supervisor/conf.d/${packageName}.conf</dst>
+                  <type>file</type>
+                  <conffile>true</conffile>
+                </data>
+                <data>
+                  <src>${basedir}/src/deb/config.properties</src>
+                  <dst>/etc/opt/${packageName}/config.properties</dst>
+                  <type>file</type>
+                  <conffile>true</conffile>
+                  <mapper>
+                    <type>perm</type>
+                    <group>${packageName}</group>
+                    <filemode>0640</filemode>
+                  </mapper>
+                </data>
+                <data>
+                  <src>${basedir}/src/deb/log4j.xml</src>
+                  <dst>/etc/opt/${packageName}/log4j.xml</dst>
+                  <type>file</type>
+                  <conffile>true</conffile>
+                  <mapper>
+                    <type>perm</type>
+                    <group>${packageName}</group>
+                    <filemode>0640</filemode>
+                  </mapper>
+                </data>
+              </dataSet>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+```
 
 ### Testing in a VM
 
