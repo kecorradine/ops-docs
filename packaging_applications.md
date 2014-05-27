@@ -3,13 +3,14 @@
 The [jdeb](https://github.com/tcurdt/jdeb) Maven plugin is used to create .deb packages for
 deployment to Ubuntu systems.
 
-The package produced needs to contain enough to get the application running with little, if any
-further, configuration. To that end, a typical package will contain:
+The package produced needs to contain enough to get the application running with little, if any further, configuration. To that end, a typical package will contain:
 
 * A self-contained jar file that listens to a port for input from the network.
 * Configuration to create a user for the service to run as.
 * Configuration files, configured with sane defaults.
 * A start script to start the service.
+
+The resulting packages are design to be use in either a typical Ubuntu or Debian environment, or in a Docker environment where supervisord is used as the entry point. Note that at the time of writing (May 2014) only Ubuntu 12.04 and 14.04 deploy has been tested.
 
 ## Application proxy
 
