@@ -5,7 +5,7 @@ deployment to Ubuntu systems.
 
 The package produced needs to contain enough to get the application running with little, if any further, configuration. To that end, a typical package will contain:
 
-* A self-contained jar file that listens to a port for input from the network.
+* A self-contained jar file that listens to a port for input from the network. These ports are standarised. Please add your service to the [document](service_ports.md).
 * Configuration to create a user for the service to run as.
 * Configuration files, configured with sane defaults.
 * A start script to start the service.
