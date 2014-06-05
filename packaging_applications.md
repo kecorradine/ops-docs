@@ -240,3 +240,19 @@ $ apt-get -f install
 
 The application should then be installed and running. The VM listens on 192.168.33.10
 
+# Ansible
+
+Ansible is used to deploy and configure applications. In particular it:
+
+* Configure which repository to use (IHTSDO.repository role)
+* Installs the package from the Nexus based apt repository
+* Configure the application from a template
+* Configure ufw firewall either via the IHTSDO.nginx module if Nginx is used, otherwise manually.
+
+In a normal run it also updates user accounts, system time zone and SSH configuration. 
+
+When packaging up a new application, copy an existing role that is similar in layout and edit accordingly.
+
+Testing can be done via Vagrant by adding the IP address of your VM to the vagrant.ini and refering to that.
+
+
