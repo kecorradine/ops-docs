@@ -1,4 +1,4 @@
-# Packaging via Maven
+# Packaging
 
 The [jdeb](https://github.com/tcurdt/jdeb) Maven plugin is used to create .deb packages for
 deployment to Ubuntu systems.
@@ -12,7 +12,7 @@ The package produced needs to contain enough to get the application running with
 
 The resulting packages are design to be use in either a typical Ubuntu or Debian environment, or in a Docker environment where supervisord is used as the entry point. Note that at the time of writing (May 2014) only Ubuntu 12.04 and 14.04 deploy has been tested.
 
-## Application proxy
+# Application proxy
 
 Generally speaking, where an application is exposed to end users via a web browser Nginx should be used as a proxy for the application. A package containing required assets can be produced and deployed. This package can contain a default nginx configuration to be placed in /etc/nginx/conf.d/<pkg_name>.conf. The package control should _not_ restart Nginx or manage any other Nginx configuration. That should be done via Ansible.
 
@@ -20,13 +20,13 @@ Context should be served from /srv/http/<pkg_name>.
 
 The [SNOMED Release Service web component](https://github.com/IHTSDO/snomed-release-service/tree/master/web) can serve as an example.
 
-## The application user
+# The application user
 
 Priviledge seperation is used to enhance security. A user and group specifically for running the application is created at install time. This should be a system user. This user and group should only be able to write files in /var/opt/<app_name>.
 
 The naming convention for this user is to use than same value as the package name, e.g. the snomed-release-service-api application runs as the snomed-release-service-api user.
 
-## Installation locations
+# Installation locations
 
 The follow installations must be followed to avoid confusion. This follows the [Linux File System Hierarchy](http://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard).
 
@@ -37,7 +37,7 @@ The follow installations must be followed to avoid confusion. This follows the [
 
 Note that supervisor by default will log stdout and stderr to /var/log/supervisor and can be configured to rotate logs.
 
-## Producing the jar file
+# Producing a jar file
 
 The jar file should be able to be run as a free-standing daemon. Tomcat and Jetty are both able to do this and either is a fine choice. The configuration of maven to produce this file is beyond the scope of this document, but examples can be see in the [snomed-release-service](https://github.com/IHTSDO/snomed-release-service) api, web and builder POM files.
 
@@ -101,9 +101,9 @@ The creation of the tomcat jar. You may wish to edit the `path` that your app is
 ```
 
 
-## Producing the package
+# Producing the package
 
-### Tree layout
+## Tree layout
 
 Within the projects tree, the follow structure should exist
 
@@ -124,13 +124,13 @@ src/
 
 This can be copied from an existing module and editted accordingly. In particular, the files directly under deb/ are not templated and so will need to be manually altered. Note the naming convention of using the `${parent.artifactId}-${artifactId}` for naming of items related to the build. This is sometime automatically derived so case should be take to use the same form everywhere it is needed.
 
-### Application configuration
+## Application configuration
 
 Application configuration files should exist that allow the specification of environmental configuration such as database host, username, password and so on. This file can be in any text format. It must live in /etc/opt/<app_name> and the application can be told of its location via a command line parameter in the applications supervisor conf file
 
 In addition to the application configuration, logging should be configured. This can be in the form of a log4j.xml file in /etc/opt/<app_name> or via stdout and redirection with a suitable logrotate configuration contained in the software package. Logs should be written to a file and rotated to avoid the disk filling up.
 
-### Control files
+## Control files
 
 The following control files manage how the package is install, removed and upgraded. As a general guide the control file for an application must:
 
@@ -146,11 +146,11 @@ See the [SNOMED Release Service API control sub tree](https://github.com/IHTSDO/
 
 In general, the jdeb section of the pom.xml will contain sections for each file or directory to be included in the package. Empty directories can either be created in the pom.xml or via the postinst control file.
 
-### Start script
+## Start script
 
 [Supervisord](http://supervisord.org/) is used to managed the starting and stopping of the application. See the [release service supervisor.conf](https://github.com/IHTSDO/snomed-release-service/blob/master/api/src/deb/supervisor.conf) for an example.
 
-### jdeb configuration
+## jdeb configuration
 
 Typical jdeb configuration will look like the following. This example is using log4j rather that
 simply taking stdout and stderr via supervisord and letting it managed the log files.
@@ -220,7 +220,7 @@ simply taking stdout and stderr via supervisord and letting it managed the log f
       </plugin>
 ```
 
-### Testing in a VM
+# Testing in a VM
 
 The ihtsdo-ansible repository contains a suitable Vagrant file for testing.  To use:
 
