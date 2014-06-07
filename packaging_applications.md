@@ -148,7 +148,9 @@ In general, the jdeb section of the pom.xml will contain sections for each file 
 
 ## Start script
 
-[Supervisord](http://supervisord.org/) is used to managed the starting and stopping of the application. See the [release service supervisor.conf](https://github.com/IHTSDO/snomed-release-service/blob/master/api/src/deb/supervisor.conf) for an example.
+[Supervisord](http://supervisord.org/) is used to managed the starting and stopping of the application. See the [release service supervisor.conf](https://github.com/IHTSDO/snomed-release-service/blob/develop/api/src/deb/supervisor.conf) for an example.
+
+Note that the -resetExtract  -extractDirectory options must be specified. They seem to avoid problems which badly extracted, and hence corrupted, files.
 
 ## jdeb configuration
 
