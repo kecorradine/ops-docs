@@ -2,6 +2,11 @@
 
 This repository contains documentation for deploying the release management system and operational documentation.
 
+## Content
+
+* [Process overview](process_overview.md) covers the broad approach
+* [Packaging Application](packaging_applications.md) gives detail
+
 ## Services quick links
 
 * [Jenkins Software builder](http://jenkins.ihtsdotools.org)
