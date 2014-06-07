@@ -27,6 +27,8 @@ Create a jenkins user, with a suitable password
 
 Under General settings, configure [Email](email.md).
 
+To copy a database from an old instance to new, simplying dump and restore the database directly.
+
 ## Sonatype Nexus
 
 ### Install Nexus on a server
@@ -169,10 +171,6 @@ These values can be set as defaults in the main Jenkins configuration page
 * Credentials
 
 Add SSH key, username jenkins. If using the official IHTSDO ansible inventory, the ssh key is in ~/.ssh
-
-* GitHub Web Hook
-
-Configure to use automatic hook updates. See password doc for user information. OAuth is prefered to password auth.
 
 # Upgrading Jenkins
 
