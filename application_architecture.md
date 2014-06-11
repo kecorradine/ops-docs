@@ -105,3 +105,5 @@ Change your.config.property.name to the name used by your application to specifi
 The application will continue to run in the foreground and listen on for HTTP on the port given by -httpPort=
 
 
+You can also configure nginx to proxy directly to Tomcat. Make sure Tomcat does not listen on the same port as nginx and change the proxy_pass line in the nginx configuration accordingly.
+
