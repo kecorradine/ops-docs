@@ -5,9 +5,10 @@ This repository contains documentation for deploying the release management syst
 ## Content
 
 * [Process overview](process_overview.md) covers the broad approach
-* [Application Architecture](application_architecture.md) gives details on Nginx and application configuration, covering java applications in particular.
-* [Packaging Application](packaging_applications.md) gives detail on creating packages
+* [Application architecture](application_architecture.md) gives details on Nginx and application configuration, covering java applications in particular.
+* [Packaging applications](packaging_applications.md) gives detail on creating packages
 * [The build environment](build_environment.md) covers the building of the Jenkins, Nexus and SonarQube services
+* [Adding a Jenkins Maven job](add_jenkins_maven_job.md) covers the steps needed in Jenkins to add a new job, though it's often quicker to copy an existing job and edit it.
 
 ## Services quick links
 
