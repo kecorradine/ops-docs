@@ -104,6 +104,12 @@ Change your.config.property.name to the name used by your application to specifi
 
 The application will continue to run in the foreground and listen on for HTTP on the port given by -httpPort=
 
+The application should be confiured to output to stdout and stderr so errors can be seen as they occur.
+
+If you want to run the application longer term, there is a supervisor configuration for each application. Copy to that to /etc/supervisor/conf.d/appname.conf, create the user given in that file and either put the jar file in the location given in the file or edit the configuration accordingly. Run `supervisorctl update` to start the application.
+
+Alternatively, if you're build is hooked in Jenkins and their is an Ansible role, you can run that against the server, or let that process set up the test servers.
+
 
 You can also configure nginx to proxy directly to Tomcat. Make sure Tomcat does not listen on the same port as nginx and change the proxy_pass line in the nginx configuration accordingly.
 
