@@ -19,7 +19,7 @@ $ ansible-playbook -i inventory/live.ini build_environment.yml -u root
 
 On subsquent runs, omit the `-u root` or change `root` to your username.
 
-## SonarQube set up
+# SonarQube set up
 
 Login to the new SonarQube install, username admin, password admin. Change the password!
 
@@ -29,9 +29,9 @@ Under General settings, configure [Email](email.md).
 
 To copy a database from an old instance to new, simplying dump and restore the database directly.
 
-## Sonatype Nexus
+# Sonatype Nexus
 
-### Install Nexus on a server
+## Install Nexus on a server
 
 Assuming a new server on Digital Ocean.
 
@@ -54,7 +54,7 @@ Where `username` is a valid user with root via sudo.
 
 Once finished, wait a few minutes from Nexus to spin up then login in at http://192.168.33.10 as admin/admin123
 
-### Configuring the APT plugin
+## Configuring the APT plugin
 
 To configure the apt plugin, go to the admin interface, under Administration, Capabilities. Select New and fill
 in the fields as follows:
@@ -63,26 +63,28 @@ in the fields as follows:
 * Key ID: AA5872B8
 * Passphrase for the key: <passphrase>
 
-### Configuring SMTP
+## Configuring SMTP
 
 On the server configuration page under SMTP Settings. See the [email document](email.md) for specific settings.
 
-## Jenkins server set up
+# Jenkins server set up
+
+There are two Jenkins servers - the application build server and the Ansible deployment server. 
 
 1. Update plugins
 2. Install the following plugins
 * Gravatar
 * GitHub OAuth
-* Jenkins Sonar
-* Config File Provider
+* Jenkins Sonar (Build Server only)
+* Config File Provider (Build server only)
 * Git plugin
 * GitHub plugin
 * Log Command
 * IRC
 * SSH Agent
+* Role-based Authorization Strategy (Ansible server only)
 
-
-### Configure GitHub authentication
+## Configure GitHub authentication
 
 * In Github
 * Under Account Settings
@@ -96,13 +98,25 @@ Back in Jenkins:
 * Under Configure Global Security
 * Select Github Authentication Plugin
 * Copy & paste the Client ID and Client Secret from the Github application page
+* Select Prevent Cross Site Request Forgery exploits
+* Select the Default Crumb Issuer
+
+On the build server do the following:
 * Select Github Commiter Authorization Strategy under Auhorization
 * Add the Github usernames of admin users to the Admin User Names
 * Insert IHTSDO (or your Github organisations name) to Participant in Organisation
 * Select Great READ options accordingly. Save.
-* Select Prevent Cross Site Request Forgery exploits and select Default Crumb Issuer
 
-### Configure Jenkins
+On the Ansible server:
+* Select Role-Based Strategy. Save
+* Select Manage and Assign Roles, near the bottom of the page.
+* Under assign roles, make sure an admin roles exists, with all priviledges.
+* Add a developers role, with Overall Read, Job Read and Job Build permissions.
+* Under assign roles, add the IHTSDO group to develops
+* Add inviduals how will manage the servier s the admins group. Save.
+
+
+## Configure Jenkins
 
 * JDK
 Name: System OpenJDK 7
@@ -131,7 +145,7 @@ Path to Git executable: /usr/bin/git
 
 * Managed files
 
-#### Global Maven settings.xml
+### Global Maven settings.xml
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 
@@ -147,7 +161,7 @@ Path to Git executable: /usr/bin/git
   </mirrors>
 </settings>
 ```
-#### Maven settings.xml
+### Maven settings.xml
 
 Add credentials for the Nexus Sonatype Repository via the usual Jenkins Credentials mechanism
 
@@ -172,8 +186,8 @@ These values can be set as defaults in the main Jenkins configuration page
 
 Add SSH key, username jenkins. If using the official IHTSDO ansible inventory, the ssh key is in ~/.ssh
 
-# Upgrading Jenkins
-
+## Upgrading Jenkins
+ 
 Every 12 weeks a new stable version of Jenkins is releaseed. To upgrade:
 
 1. Log in to the build server
