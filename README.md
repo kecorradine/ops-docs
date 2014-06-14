@@ -59,12 +59,13 @@ The broad life cycle runs as follows:
 * Configure maven to produce .deb files via the jdeb plugin. See the [SNOMED Release Service API pom.xml](https://github.com/IHTSDO/snomed-release-service/blob/master/api/pom.xml#L153) for an example
 * Create the src/deb tree containing the supervisor.conf to start the app and the control directory containing the control file, pre and port scripts. Again see the [SNOMED Release Service API](https://github.com/IHTSDO/snomed-release-service/tree/master/api/src/deb) for examples.
 * These two combined should produce a working .deb file which is self contained and listens on a given port
-* Set up SNAPSHOT and RELEASE jobs in Jenkins by cloning existing jobs and editing. Be sure to check advanced configuration options as they be hidden in the default view. GitHub hooks will be automatically configured.
+* Set up SNAPSHOT and RELEASE jobs in Jenkins by cloning existing jobs and editing. Be sure to check advanced configuration options as they be hidden in the default view. 
+* Set up Jenkins (Git) hooks in GitHub.
 * Upon running the jobs, the deb packages should be produced and all artifacts uploaded to the [Nexus Repository](https://nexus.ihtsdotools.org).
 
 # Deploy life cycle
 
-* In the IHTSDO ansible repository and associated inventory, copy an existing role to a new folder and edit for the new application (in particular, check default and naming).
+* In the [IHTSDO ansible repository](https://github.com/IHTSDO/ihtsdo-ansible) and associated [inventory](https://github.com/IHTSDO/ansible-inventory), copy an existing role to a new folder and edit for the new application (in particular, check default and naming).
 * Add new groups the the inventory files with appropriate configuration.
 * On the [Ansible Jenkins server](https://ansible.ihtsdotools.org) clone an existing job and edit as required.
 

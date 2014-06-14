@@ -257,4 +257,10 @@ When packaging up a new application, copy an existing role that is similar in la
 
 Testing can be done via Vagrant by adding the IP address of your VM to the vagrant.ini and refering to that.
 
+The intention of the Ansible repository is that is it is self documenting. To understand the configuraition of a role, study the tasks/main.yml and the defaults/main.yml file and any templates/. These show what is configured by the role and
+the variables needed to change that configuration.
+
+Variables should be placed in the appropriate inventory file. In general, passwords live in host_vars/ files, broad configuration in group_vars/. It is worth spending time studying these files to understand how this data is used in the configuration of applications. It is the inventory that sets the configuration for a particular environment.
+
+
 
