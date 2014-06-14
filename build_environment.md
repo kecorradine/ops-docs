@@ -52,7 +52,7 @@ $ ansible-playbook build-environment.yml -i inventory/vagrant.ini -u username
 
 Where `username` is a valid user with root via sudo.
 
-Once finished, wait a few minutes from Nexus to spin up then login in at http://192.168.33.10 as admin/admin123
+Once finished, wait a few minutes from Nexus to spin up then login in at https://<serverFQDN> as admin/admin123
 
 ## Configuring the APT plugin
 
