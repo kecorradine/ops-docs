@@ -1,8 +1,0 @@
-# User access
-
-
-## Jenkins
-
-[Jenkins](https://jenkins.ihtsdotools.org) uses OAuth against GitHub to authenticate and authorize users. The users needs to be in the IHTSDO organisation and have their membership public, which can be set on the [members page](https://github.com/orgs/IHTSDO/members)
-
-
